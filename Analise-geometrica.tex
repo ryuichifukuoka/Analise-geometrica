@@ -1,0 +1,391 @@
+\documentclass[10pt,reqno]{amsart}
+
+\usepackage{amsrefs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{stackrel}
+\usepackage{color}
+\usepackage{graphics,graphicx}
+\usepackage{comment}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{example}[theorem]{Exemplo}
+\newtheorem{examples}[theorem]{Exemplos}
+\newtheorem{definition}[theorem]{Definição}
+\newtheorem{conjecture}[theorem]{Conjectura}
+\newtheorem{proposition}[theorem]{Proposição}
+\newtheorem{remark}[theorem]{Observação}
+\newtheorem{corollary}[theorem]{Corolário}
+\newtheorem{nothing}[theorem]{ }
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Hess}{Hess}
+\DeclareMathOperator{\spann}{span}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\epi}{epi}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\dom}{dom}
+
+\title{Introdução à Análise Geométrica}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introdução}
+
+Este texto é uma introdução à análise geométrica em variedades Riemannianas e tem como pré-requisito os conceitos de variedades diferenciáveis, métricas Riemannianas, conexões afins, conexões Riemannianas e curvatura.
+
+\section{Tensores em espaços vetorias}
+
+Ao longo do texto, $V$ será espaço vetorial sobre $\mathbb R$ de dimensão finita $n$ e $V^\ast$ denotará o seu dual.
+
+\begin{definition}
+\label{Tensores sobre V}
+Um tensor de tipo $(m,s)$ sobre $V$ é uma aplicação $(m+s)$-linear 
+\begin{align*}
+T: \underbrace{V^\ast \times \ldots \times V^\ast}_{m \ \mathrm{ termos}} \times \underbrace{ V \times \ldots \times V}_{s\  \mathrm{ termos}} \rightarrow \mathbb R. 
+\end{align*} 
+O espaço vetorial dos tensores de tipo $(m,s)$ será denotado por $V^{m,s}$. Por convenção $V^{0,0} = \mathbb R$.
+\end{definition}
+
+A soma e o produto por escalar em $V^{m,s}$ serão denotados por $+$ e $.$ como de costume.
+
+Observe que tensores de tipo $(1,0)$ são elementos de $(V^\ast)^\ast$, que estão naturalmente identificados com $V$.
+Neste trabalho usaremos notação $v$ tanto como elemento de $V$ como do seu bidual.
+Portanto, se $\alpha \in V^\ast$, então $v (\alpha) = \alpha (v)$.
+
+\begin{definition}
+\label{Produto tensorial} Sejam $T$ e $S$ tensores de tipo $(m_1,s_1)$ e $(m_2,s_2)$ respectivamente. Então o produto tensorial $T \otimes S$ é um tensor de tipo $(m_1+m_2, s_1 + s_2)$ definido por
+\begin{align*}
+& (T \otimes S)(\alpha^1, \ldots, \alpha^{m_1 + m_2}, v_1, \ldots, v_{s_1+s_2}) \\
+= & T(\alpha^1, \ldots, \alpha^{m_1}, v_1, \ldots, v_{s_1}).S(\alpha^{m_1+1}, \ldots, \alpha^{m_1+m_2}, v_{s_1+1}, \ldots, v_{s_1+s_2}).
+\end{align*}
+\end{definition}
+
+É claro que o produto tensorial é associativo mas não é comutativo.
+
+Considere uma base ordenada $\mathcal B = (e_1, \ldots, e_n)$ de $V$ e seja $\mathcal B^\ast = (\beta^1, \ldots, \beta^n)$ sua base dual.
+Vamos determinar uma base para $V^{m,s}$.
+Defina $e_{k_1} \otimes \ldots \otimes e_{k_m} \otimes \beta^{l_1} \otimes \ldots \otimes \beta^{l_s} \in V^{m,s}$, com $k_1, \ldots, k_m, l_1, \ldots, l_s\in \{1, \ldots, n\}$, por 
+\begin{align}
+& (e_{i_1} \otimes \ldots \otimes e_{i_m} \otimes \beta^{j_1} \otimes \ldots \otimes \beta^{j_s})(\beta^{k_1}, \ldots, \beta^{k_m}, e_{l_1}, \ldots, e_{l_s}) & \nonumber \\
+= 
+&
+\beta^{k_1}(e_{i_1}).\ldots.\beta^{k_m}(e_{i_m}).\beta^{j_1}(e_{l_1}) \ldots \beta^{j_s}(e_{l_s}) 
+=
+\delta^{k_1}_{i_1}\ldots \delta^{k_m}_{i_m}. \delta^{j_1}_{l_1} \ldots \delta^{j_s}_{l_s}. & \label{define base}
+\end{align}
+O valor de $e_{i_1} \otimes \ldots \otimes e_{i_m} \otimes \beta^{j_1} \otimes \ldots \otimes \beta^{j_s}$ em $(m+s)$-uplas gerais é determinado por multilinearidade.
+Dado um tensor $T \in V^{m,s}$,
+defina
+\begin{align*}
+T^{i_1, \ldots, i_m}_{j_1, \ldots, j_s} = T(\beta^{i_1}, \ldots, \beta^{i_m}, e_{j_1}, \ldots, e_{j_s}).
+\end{align*} 
+Note que $T$ pode ser escrito como  
+\begin{align}
+\label{expressao de T em coordenadas}
+T = T^{i_1, \ldots, i_m}_{j_1, \ldots, j_s}(e_{i_1} \otimes \ldots \otimes e_{i_m} \otimes \beta^{j_1} \otimes \ldots \otimes \beta^{j_s})
+\end{align}
+devido a sua $(m+s)$-linearidade.
+Na equação acima (e daqui em diante) estamos considerando a convenção de Einstein: Quando o mesmo índice estiver repetido subscrito e e sobrescrito, então fica implícito a soma com o índice variando de $1$ a $n$.
+Mais precisamente
+\begin{align*}
+& 
+T^{i_1, \ldots, i_m}_{j_1, \ldots, j_s}(e_{i_1} \otimes \ldots \otimes e_{i_m} \otimes \beta^{j_1} \otimes \ldots \otimes \beta^{j_s}) \\
+: = 
+&
+\sum_{i_1, \ldots, i_m, j_1, \ldots, j_s = 1}^n T^{i_1, \ldots, i_m}_{j_1, \ldots, j_s}(e_{i_1} \otimes \ldots \otimes e_{i_m} \otimes \beta^{j_1} \otimes \ldots \otimes \beta^{j_s}).
+\end{align*}
+Portanto de (\ref{expressao de T em coordenadas}) segue que
+\begin{align*}
+\mathcal B^{m,s}=\left\{ e_{i_1} \otimes \ldots \otimes e_{i_m} \otimes \beta^{j_1} \otimes \ldots \otimes \beta^{j_s} \right\}_{i_1, \ldots, i_m, j_1, \ldots, j_s = 1, \ldots, n}
+\end{align*}
+gera $V^{m,s}$.
+Além disso, por (\ref{define base}) é imediato que $\mathcal B^{m,s}$ é uma base do espaço vetorial $V^{m,s}$.
+Em particular $\dim V^{m,s} = n^{m+s}$. 
+
+Um tensor $T:V^\ast \times V \rightarrow \mathbb R$ pode ser identificado com um operador linear $\bar T:V \rightarrow V$: 
+De fato, 
+\begin{align}
+\label{tensor-um-um-operador-linear}
+\bar T(v) := T(\cdot, v),
+\end{align} 
+onde novamente estamos identificando $V$ com seu bidual.
+Se denotarmos $T=T^i_j (e_i \otimes \beta^j)$, então $\bar T(e_k) = T^i_k e_i$, ou seja, a matriz de $\bar T$ e $T$ em relação a $\mathcal B$ e $\mathcal B^\ast$ coincidem.
+Com isso o traço de $\bar T$ é dado por 
+\begin{align}
+\label{traco operador}
+tr \bar T = T^i_i = T(\beta^i,e_i).
+\end{align} 
+
+Sejam $k\in \{1,\ldots, m\}$ e $l \in \{1, \ldots, s\}$. 
+A contração de $T\in V^{m,s}$ em relação ao par $(k,l)$ é o tensor $\tr_{(k,l)}T \in V^{m-1,s-1}$ definido por
+\begin{align*}
+& (\tr_{(k,l)}T)(\alpha^1, \ldots, \alpha^{m-1}, v_1, \ldots, v_{s-1}) \\ 
+= &T(\alpha^1, \ldots, \alpha^{k-1}, \beta^q, \alpha^k, \ldots, \alpha^{m-1}, v_1, \dot, \ldots, v_{l-1}, e_q, v_l, \ldots, v_{s-1}).
+\end{align*}
+O valor $(\tr_{(k,l)}T)(\alpha^1, \ldots, \alpha^{m-1}, v_1, \ldots, v_{s-1})$ não depende da escolha de bases:
+De fato, ele pode ser visto como o traço do tensor de tipo $(1,1)$ definido por
+\begin{align*}
+(\beta, v) \mapsto \tr (T(\alpha^1, \ldots, \alpha^{k-1}, \beta, \alpha^k, \ldots, \alpha^{m-1}, v_1, \dot, \ldots, v_{l-1}, v, v_l, \ldots, v_{s-1}))
+\end{align*}
+devido a (\ref{traco operador}).
+A contração de um tensor fica mais visível em termos de sistemas de coordenadas.
+Mas precisamente
+\begin{align*}
+(\tr_{(i,j)} T)^{i_1\ldots i_{m-1}}_{j_1 \ldots j_{s-1}}=T^{i_1\ldots i_{k-1}\; i\; i_k \ldots i_{m-1}}_{j_1\ldots j_{l-1}\; i\; j_l \ldots j_{s-1}}.
+\end{align*}
+
+Finalizamos esta seção observando que $T \in V^{m,s}$ pode ser identificado com
+\begin{align*}
+\bar T: \underbrace{V^\ast \times \ldots \times V^\ast}_{m_1 \text{ termos}} \times \underbrace{V \times \ldots \times V}_{s_1 \text{ termos}} \rightarrow V^{m_2,s_2}
+\end{align*}
+definido por
+\begin{align*}
+\bar T(\alpha^1, \ldots, \alpha^{m_1},v_1, \ldots, v_{s_1}) = T(\alpha^1, \ldots, \alpha^{m_1}, \underbrace{\ldots}_{m_2 \text{ termos}}, v_1, \ldots, v_{s_1}, \underbrace{\ldots}_{s_2 \text{ termos}}).
+\end{align*}
+O operador multilinear $\bar T$ é claramente uma generalização da identificação dada em (\ref{tensor-um-um-operador-linear}).
+
+\section{Tensores em espaços vetoriais munidos com produto interno}
+
+Nesta seção, $g =\left< \cdot, \cdot \right> \in V^{0,2}$ é um produto interno em $V$.
+Muitos dos argumentos desenvolvidos aqui valem para uma forma bilinear não degenerada $g$, tais como formas simpléticas.
+Mas restringiremos nossa análise para o caso do produto interno, visando aplicações em geometria Riemanniana.
+
+Um produto interno em $V$ induz naturalmente um isomorfismo entre $V$ e $V^\ast$ dado por $v \mapsto \left< v, \cdot \right>$. 
+O funcional $\left< v, \cdot \right>$ será denotado por $v^\flat$. 
+Com respeito ao isomorfismo inverso, o vetor correspondente a $\alpha \in V^\ast$ será denotado por $\alpha^\sharp$.
+As aplicações $v \mapsto v^\flat$ e $\alpha\ \mapsto \alpha^\sharp$ são denominados de isomorfismos musicais.
+Através desses isomorfismos, induzimos naturalmente uma forma bilinear $g^{-1}:V^\ast \times V^\ast \rightarrow \mathbb R$ que é dada por $g^{-1}(\alpha,\beta) = g(\alpha^\sharp, \beta^\sharp)$.
+
+Sejam $\mathcal B = \{e_1, \ldots, e_n\}$ e $\mathcal B^\ast = \{\beta^i, \ldots, \beta^n \}$ bases de $V$ e $V^\ast$ respectivamente.
+Quando for conveniente representaremos um tensor por suas coordenadas: 
+Por exemplo, $g$ será representado por suas coordenadas $g_{ij} = g(e_i,e_j)$. 
+
+Se $v^k \in V^{1,0}$, então a equação
+\begin{align}
+\label{formula isomorfismo direto}
+(v^\flat)_j = g_{ij}v^i.
+\end{align} 
+segue diretamente da definição de $\flat$.
+Por uma questão de simplicidade e conveniência, denotaremos $(v^\flat)_j$ por $v_j$, conforme é usual na literatura.
+Como consequência de (\ref{formula isomorfismo direto}), o isomorfismo inverso é caracterizado por
+\begin{align}
+\label{formula isomorfismo inverso}
+(\alpha^\sharp)^i=g^{ij}\alpha_j
+\end{align}
+onde $g^{ij}$ é a matriz inversa de $g_{ij}$.
+Em particular, temos que
+\begin{align}
+\label{mudanca de base para dual}
+& (e_i)^\flat = g_{ij}\beta^j & & \text{ e } & & (\beta^i)^\sharp = g^{ij}e_j &
+\end{align}
+devido a (\ref{formula isomorfismo direto}) e (\ref{formula isomorfismo inverso}).
+Por fim note que $g^{-1}=g^{ij}(e_i \otimes e_j)$, pois
+\begin{align*}
+g^{-1}(\beta^i,\beta^j) = g(g^{ik}e_k, g^{jl} e_l) = g^{ik} g_{kl} g^{lj} = g^{ij} 
+\end{align*}
+devido à definição de $g^{-1}$.
+
+Um modo alternativo e equivalente de enxergar $\flat$ e $\sharp$ é através das identidades \begin{align}
+\label{alternativo v bemol}
+v^\flat = \tr( g \otimes v)
+\end{align} 
+e 
+\begin{align}
+\label{alternativo alpha sustenido}
+\alpha^\sharp = \tr(g^{-1}\otimes \alpha).
+\end{align}
+De fato
+\begin{align*}
+(\tr (g \otimes v))(w)=g(e_i,w)v(\beta^i) = g(\beta^i (v) e_i,w) = g(v^i e_i, w) = v^\flat(w)
+\end{align*}
+e a demonstração da equação (\ref{alternativo alpha sustenido}) é análoga.
+
+Tensores $T \in V^{m,s}$ com $m\geq 1$ podem ser identificados com tensores do tipo $(m-1,s+1)$, em uma relação que generaliza $\flat$.
+Defina
+\begin{align}
+\label{T bemol}
+T^\flat = \tr(g \otimes T).
+\end{align}
+Em sistemas de coordenadas temos
+\begin{align*}
+(T^\flat)^{i_1 \ldots i_{m-1}}_{l j_1 \ldots j_{s}}=g_{k l}T^{k i_1 \ldots i_{m-1}}_{j_1 \ldots j_{s}},
+\end{align*}
+que denotaremos simplesmente por $T^{i_1 \ldots i_{m-1}}_{l j_1 \ldots j_{s}}$.
+A operação de identificação
+\begin{align*}
+T^{li_1 \ldots i_{m-1}}_{j_1 \ldots j_s} \mapsto T^{i_1 \ldots i_{m-1}}_{l j_1 \ldots j_s}
+\end{align*}
+é denominado de abaixamento de índices em $T$.
+De modo análogo, se $s\geq 1$, definimos a elevação de índices de um tensor $T$ por
+\begin{align*}
+T^\sharp = \tr(g \otimes T),
+\end{align*}
+que em sistema de coordenadas fica
+\begin{align*}
+(T^\sharp)^{l i_1 \ldots i_m}_{j_1 \ldots j_{s-1}}=g^{k l}T^{i_1 \ldots i_m}_{k j_1 \ldots j_{s-1}},
+\end{align*}
+e será denotado simplesmente por $T^{l i_1 \ldots i_m}_{j_1 \ldots j_{s-1}}$.
+Em sistema de coordenadas, a elevação de índices de $T$ fica
+\begin{align*}
+T^{i_1 \ldots i_m}_{l j_1 \ldots j_{s-1}} \mapsto T^{l i_1 \ldots i_m}_{j_1 \ldots j_{s-1}}.
+\end{align*}
+
+\section{Tensores em variedades diferenciáveis}
+
+Seja $M$ uma variedade diferenciável de dimensão $n$ munido com uma estrutura diferenciável $\mathcal E=\{\mathbf x_\lambda:U_\alpha \rightarrow M\}_{\lambda \in \Lambda}$, onde $U_\lambda$ é um aberto de $\mathbb R^n$.
+Denotaremos os sistemas de coordenadas de $U_\lambda$ por $(x^1_\lambda, \ldots, x^n_\lambda)$, que induzem campos de vetores coordenados 
+\begin{align*}
+\left\{ \frac{\partial}{\partial x^1_\lambda}, \ldots, \frac{\partial}{\partial x^n_\lambda} \right\}
+\end{align*}
+e as 1-formas coordenadas
+\begin{align*}
+\left\{ dx^1_\lambda, \ldots, dx^n_\lambda \right\}
+\end{align*}
+em $\mathbf x_\lambda (U_\lambda)$.
+
+O espaço tangente de $M$ em $p\in M$ será denotado por $T_pM$ e o fibrado tangente de $M$ é a variedade diferenciável 
+\begin{align*}
+TM = \{(p,v);p\in M,v\in T_pM\}
+\end{align*}
+com estrutura diferenciável dada por 
+\begin{align*}
+\mathcal E^{1,0}=\{\mathbf y_\lambda:U_\lambda \times \mathbb R^n \rightarrow TM\},
+\end{align*}
+onde 
+\begin{align*}
+\mathbf y_\lambda (x^1_\lambda, \ldots, x^n_\lambda, y_\lambda^1, \ldots, y_\lambda^n) = \left( \mathbf x_\lambda(x^1_\alpha, \ldots, x^n_\lambda),  y^i_\lambda \frac{\partial}{\partial x^i_\lambda} \right).
+\end{align*}
+
+O espaço cotangente de $M$ em $p\in M$ é o espaço vetorial dual a $T_pM$ e será denotado por $T_p^\ast M$ e o fibrado cotangente é a variedade diferenciável 
+\begin{align*}
+T^\ast M = \{(p,\alpha);p\in M,\alpha \in T_p^\ast M\}
+\end{align*}
+com estrutura diferenciável dada por
+\begin{align*}
+\mathcal E^{0,1}=\{\bold{\alpha} ^\lambda:U_\lambda \times \mathbb R^n \rightarrow T^\ast M\},
+\end{align*}
+onde 
+\begin{align*}
+\mathbf y_\lambda (x^1_\lambda, \ldots, x^n_\lambda, \alpha^\lambda_1, \ldots, \alpha^\lambda_n) = \left( \mathbf x_\lambda(x^1_\lambda, \ldots, x^n_\lambda),  \alpha^\lambda_i\frac{\partial}{\partial x^i_\lambda} \right).
+\end{align*}
+
+
+
+\
+
+\
+
+\
+
+Definição;
+
+\
+
+Histórico, as diversas definições de Finsler;
+
+\
+
+Exemplos;
+
+\
+
+Norma do máximo;
+
+\
+
+Grupos de Lie;
+
+\
+
+Variedades de Finsler munidos com normas poliedrais;
+
+\
+
+Espaços homogêneos?;
+
+\
+
+Diferenças;
+
+\
+
+Semelhanças;
+
+\bibliographystyle{amplain}
+
+\bibliography{references}{}
+
+\end{document}
+
+%% A -
+%% a - 
+%% B - bola
+%% b - 
+%% C - Control set, Cartan tensor
+%% C -
+%% c -
+%% \mathcal C 
+%% d - usual derivative, subdifferential
+%% d_M - métrica
+% D - 
+% D -
+%% e - 
+%% E - 
+%% \mathcal E - extende geodesic field
+%% f - function
+%% g - Riemannian metric and fundamental tensor, elemento do grupo de Lie
+%% \mathfrak g - álgebra de Lie
+%% G - Lie group, 
+%% \mathcal G - Geodesic spray
+%% F - Finsler/Minkowski/assymetric norm
+% \mathcal F
+% h -
+%% \mathfrak h - álgebra de Lie
+% H - Hamiltonian, subgrupo
+% J - 
+%% k - índice
+%% l - distinguished section, extremidade de intervalo;
+%% M - manifold
+%% N - manifold
+%% n - dimensão
+%% R - raio
+%% S - esfera 
+%% t - parâmetro temporal
+% u - controle
+%% U - horizontal open subset
+%% V - espaço vetorial
+% W 
+%% x - horizontal direction
+% X - 
+%% y - vertical direction
+% Y - 
+%% z - vertical direction
+% Z - 
+% \alpha - 
+% \beta - 
+% \epsilon - interval extremal
+% \varepsilon - parameter
+%% - \eta - 
+% \gamma - 
+% \kappa - 
+%% \Gamma - 
+%$ \lambda - index in a differentiable structure
+%% \phi - coordinate system
+% \Phi - 
+% \omega - 
+% \delta - 
+%% \tau - 
+% \nabla
+% \psi - 
+% \sigma - 
+%% \theta - 
+% \varphi - 
+%% \zeta
